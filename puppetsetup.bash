@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "prepping server..."
 rpm -Uvh https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
-yum install puppet{-agent,server}
+yum install -y puppet{-agent,server}
 echo 'PATH="$PATH:/opt/puppetlabs/bin"' > /etc/profile.d/puppet.sh
 /opt/puppetlabs/bin/puppet module install saz-timezone
 /opt/puppetlabs/bin/puppet module install puppetlabs-puppetdb
