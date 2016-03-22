@@ -93,7 +93,7 @@ echo "re-running puppet agent"
 /opt/puppetlabs/bin/puppetdb ssl-setup -f
 useradd -g puppetdb puppetdb
 /opt/puppetlabs/bin/puppet agent -t
-systemctl damon-reload
+systemctl daemon-reload
 systemctl enable puppetserver.service
 systemctl restart puppetserver.service
 
