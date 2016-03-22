@@ -91,6 +91,7 @@ echo "re-running puppet agent"
 /opt/puppetlabs/bin/puppetdb ssl-setup -f
 useradd -g puppetdb puppetdb
 /opt/puppetlabs/bin/puppet agent -t
+systemctl damon-reload
 systemctl restart puppetserver
 
 echo "setting up puppet explorer"
