@@ -92,7 +92,8 @@ echo "re-running puppet agent"
 useradd -g puppetdb puppetdb
 /opt/puppetlabs/bin/puppet agent -t
 systemctl damon-reload
-systemctl restart puppetserver
+systemctl enable puppetserver.service
+systemctl restart puppetserver.service
 
 echo "setting up puppet explorer"
 FOLDER="$(/opt/puppetlabs/bin/puppet config print codedir)/environments/production/modules/common_setup/manifests"
