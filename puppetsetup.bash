@@ -1,9 +1,9 @@
 #!/bin/bash
+echo "creating puppet group and user"
+useradd -r -g puppet puppet
 echo "prepping server..."
 rpm -Uvh https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
 yum install -y puppet{-agent,server}
-echo "creating puppet group and user"
-useradd -r -g puppet puppet
 echo 'PATH="$PATH:/opt/puppetlabs/bin"' > /etc/profile.d/puppet.sh
 /opt/puppetlabs/bin/puppet module install saz-timezone
 /opt/puppetlabs/bin/puppet module install puppetlabs-puppetdb
