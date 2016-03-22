@@ -1,5 +1,6 @@
 #!/bin/bash
 echo "creating puppet group and user"
+groupadd -r puppet
 useradd -r -g puppet puppet
 echo "prepping server..."
 rpm -Uvh https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
