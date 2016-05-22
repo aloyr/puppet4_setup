@@ -75,5 +75,5 @@ SRC="/opt/puppetlabs/bin"
 DST="/usr/local/bin"
 echo "Creating Symlinks"
 ls ${SRC} | while read file; do
-  ln -s ${SRC}/${file} ${DST}
+  ln -fs ${SRC}/${file} ${DST}
 done
