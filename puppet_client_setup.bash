@@ -12,6 +12,18 @@ if [ $(hash puppet 2> /dev/null; echo $?) -eq 0 ] && [ "a$1" != 'aupdate' ]; the
   exit 1
 fi
 
+## SUPPORT FUNCTIONS ##
+function do_yum() {
+  rpm -Uvh ${REPO_PKG}
+  yum install puppet-agent
+}
+
+function do_apt() {
+  curl -s ${REPO_PKG} -o ${HOME}/${REPO_PKG_NAME}
+  dpkg -i ${HOME}/${REPO_PKG_NAME}
+}
+## SUPPORT FUNCTIONS END ##
+
 ## INSTALLATION ##
 # handle OSX clients
 if [ $(uname -s) == 'Darwin' ]; then
@@ -30,6 +42,32 @@ if [ $(uname -s) == 'Darwin' ]; then
   /usr/sbin/installer -target / -pkg ${PACKAGE_PKG}
   echo "Unmounting volume"
   hdiutil unmount ${VOLUME}
+# handle linux clients
+elif [ -e /etc/os-release ]; then
+  . /etc/os-release
+  REPO_URL_YUM='https://yum.puppetlabs.com/'
+  REPO_URL_APT='https://apt.puppetlabs.com/'
+  case $ID in
+    'centos')
+      REPO_PKG_NAME="puppetlabs-release-pc1-el-${VERSION_ID}.noarch.rpm"
+      REPO_PKG="${REPO_URL_YUM}${REPO_PKG_NAME}"
+      do_yum
+      ;;
+    'fedora')
+      REPO_PKG_NAME="puppetlabs-release-pc1-fedora-${VERSION_ID}.noarch.rpm"
+      REPO_PKG="${REPO_URL_YUM}${REPO_PKG_NAME}"
+      do_yum
+      ;;
+    'debian')
+      VERSION_NAME=$(echo ${VERSION} | sed 's/.*(\([^)]*\)).*/\1/g')
+      REPO_PKG_NAME="puppetlabs-release-pc1-${VERSION_NAME}.deb"
+      REPO_PKG="${REPO_URL_APT}${REPO_PKG_NAME}"
+      do_apt
+      ;;
+  esac
+else
+  echo "Cannot identify OS version, aborting..."
+  exit 1
 fi
 
 ## MAKE SYMLINKS ##
