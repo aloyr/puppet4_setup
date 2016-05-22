@@ -6,7 +6,7 @@ if [ $(id -u) -ne 0 ]; then
   exit 1
 fi
 
-if [ $(hash puppet 2> /dev/null; echo $?) -eq 0 ]; then
+if [ $(hash puppet 2> /dev/null; echo $?) -eq 0 ] && [ "a$1" != 'aupdate' ]; then
   echo "puppet already installed."
   echo "Use 'sudo $(echo $0) update' to force update."
   exit 1
